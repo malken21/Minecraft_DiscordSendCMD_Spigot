@@ -1,0 +1,7 @@
+name: Discord_send_command
+version: '${version}'
+main: marumasa.discord_send_command.minecraft
+api-version: 1.19
+commands:
+  notice:
+    description: "/notice [ChannelName] [Message]"

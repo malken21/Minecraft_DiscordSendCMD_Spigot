@@ -1,0 +1,8 @@
+channels:
+  - name: "ChannelName1"
+    webhook: "WebHookURL1"
+  - name: "ChannelName2"
+    webhook: "WebHookURL2"
+EmbedColor: 0
+errorText: "/notice [ChannelName] [Message]"
+resultText: "Sent to Discord"
