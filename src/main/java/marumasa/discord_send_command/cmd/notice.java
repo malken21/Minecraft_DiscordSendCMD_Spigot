@@ -2,11 +2,7 @@ package marumasa.discord_send_command.cmd;
 
 import marumasa.discord_send_command.Config;
 import marumasa.discord_send_command.discord;
-import marumasa.discord_send_command.minecraft;
-import marumasa.discord_send_command.request;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,7 +29,20 @@ public class notice implements CommandExecutor, TabCompleter {
             player.sendMessage(ChatColor.RED + con.errorText);
             return false;
         }
-        new discord(webhook, args, player, con).start();
+
+        final int size = args.length;
+
+        final StringBuilder message = new StringBuilder();
+        for (int loop = 1; loop < size; loop++) {
+            if (loop != 1) message.append(" ");
+            message.append(args[loop]);
+        }
+        if (message.length() == 0) {
+            player.sendMessage(ChatColor.RED + con.errorText);
+            return false;
+        }
+
+        new discord(webhook, message.toString(), player, con).start();
         return true;
     }
 

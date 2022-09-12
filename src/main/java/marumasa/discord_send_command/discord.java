@@ -9,29 +9,25 @@ public class discord extends Thread {
     private final String url;
     private final String json;
     private final Player player;
+    private final Config con;
+    private final String msg;
 
-    public discord(final String webhook, final String[] args, final Player sender, final Config config) {
-        final int size = args.length;
-
-        final StringBuilder message = new StringBuilder();
-        for (int loop = 1; loop < size; loop++) {
-            if (loop != 1) message.append(" ");
-            message.append(args[loop]);
-        }
-        if (message.length() == 0) sender.sendMessage(ChatColor.RED + config.errorText);
+    public discord(final String webhook, final String message, final Player sender, final Config config) {
+        player = sender;
+        con = config;
+        msg = message;
 
         url = webhook;
         json = String.format(
-                "{\"embeds\": [{\"title\": \"%s\",\"description\": \"%s\",\"color\": %d}]}",
-                sender.getDisplayName().replaceAll("§([0-9a-f]|r|l|o|n|m|k)", ""),
+                "{\"content\":\"%s\",\"username\":\"%s\",\"avatar_url\":\"%s\"}",
                 message,
-                config.EmbedColor
+                player.getDisplayName().replaceAll("§([0-9a-f]|r|l|o|n|m|k)", ""),
+                String.format(config.avatarURL, player.getUniqueId())
         );
-        player = sender;
     }
 
     public void run() {
         request.post(url, json);
-        player.sendMessage("メッセージを送信しました");
+        player.sendMessage(String.format(ChatColor.YELLOW + con.resultText, ChatColor.GOLD + msg));
     }
 }
